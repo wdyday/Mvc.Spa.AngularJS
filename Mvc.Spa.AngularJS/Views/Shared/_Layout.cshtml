@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<base href="/">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>@ViewBag.Title MVC & AngularJS</title>
+	@Styles.Render("~/Content/css")
+	@Scripts.Render("~/bundles/jquery")
+	@Scripts.Render("~/bundles/angularjs")
+</head>
+<body ng-app="mvcSpaAngularApp">
+	<div class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				@Html.ActionLink("应用程序名称", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li><a ng-href="/">Home</a></li>
+					<li ui-sref-active="active"><a ng-href="/account/login">Login</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="container body-content">
+		@RenderBody()
+		@RenderSection("SPAViews", required: false)
+		<hr />
+		<footer>
+			<p>&copy; @DateTime.Now.Year - 我的 ASP.NET 应用程序</p>
+		</footer>
+	</div>
+	@{
+		var controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["Controller"].ToString();
+		var serverUrl = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"));
+		var controllerUrl = Url.Content("~") + controllerName;
+	}
+	<script>
+    window.ServerUrl = '@serverUrl';
+    window.RouterUrl = '@controllerUrl';
+	</script>
+	@Scripts.Render("~/bundles/angularui")
+	@Scripts.Render("~/bundles/bootstrap")
+	@Scripts.Render("~/bundles/app")
+	@RenderSection("scripts", required: false)
+</body>
+</html>
